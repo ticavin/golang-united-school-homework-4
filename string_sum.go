@@ -25,40 +25,46 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-	input = strings.TrimSpace(input)
-	if len(input) == 0 {
+	inputS := strings.ReplaceAll(input, " ", "")
+
+	if inputS == "" {
 		return "", errorEmptyInput
-	} else if len(input) > 4 && len(input) < 3 {
+	}
+
+	varOne := 0
+	for _, i := range inputS[1:] {
+		if i == '+' || i == '-' {
+			varOne++
+		}
+	}
+
+	if varOne != 1 {
 		return "", errorNotTwoOperands
 	}
-	if input[0] == '-' {
 
-		firstNum, err := strconv.ParseInt(string(input[1]), 10, 32)
-		if err != nil {
-			return "", err
-		}
+	varTwo := 0
 
-		secondNum, err := strconv.ParseInt(string(input[3]), 10, 32)
-		if err != nil {
-			return "", err
+	for i := 0; i < len(inputS); i++ {
+		if (inputS[i] == '-' || inputS[i] == '+') && i != 0 {
+			varTwo = i
 		}
-		if firstNum >= secondNum {
-			output = strconv.FormatInt(firstNum-secondNum, 10)
-		} else {
-			output = strconv.FormatInt(secondNum-firstNum, 10)
-		}
-	} else {
-
-		firstNum, err := strconv.ParseInt(string(input[0]), 10, 32)
-		if err != nil {
-			return "", err
-		}
-		secondNum, err := strconv.ParseInt(string(input[2]), 10, 32)
-		if err != nil {
-			return "", err
-		}
-
-		output = strconv.FormatInt(firstNum+secondNum, 10)
 	}
+
+	firstNum, err := strconv.Atoi(inputS[:varTwo])
+	if err != nil {
+		return "", err
+	}
+
+	secondNum, err := strconv.Atoi(inputS[varTwo+1:])
+	if err != nil {
+		return "", err
+	}
+
+	if inputS[varTwo] == '+' {
+		output = strconv.Itoa(firstNum + secondNum)
+	} else {
+		output = strconv.Itoa(firstNum - secondNum)
+	}
+
 	return output, nil
 }
