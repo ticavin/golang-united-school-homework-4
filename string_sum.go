@@ -2,7 +2,6 @@ package string_sum
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -27,8 +26,8 @@ var (
 
 func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
-	if input == "" {
-		return "", fmt.Errorf("%w", errorEmptyInput)
+	if len(input) == 0 {
+		return "", errorEmptyInput
 	}
 	if len(input) > 4 && len(input) < 3 {
 		return "", errorNotTwoOperands
