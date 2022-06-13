@@ -28,8 +28,7 @@ func StringSum(input string) (output string, err error) {
 	input = strings.TrimSpace(input)
 	if len(input) == 0 {
 		return "", errorEmptyInput
-	}
-	if len(input) > 4 && len(input) < 3 {
+	} else if len(input) > 4 && len(input) < 3 {
 		return "", errorNotTwoOperands
 	}
 	if input[0] == '-' {
